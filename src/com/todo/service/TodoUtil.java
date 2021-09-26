@@ -15,24 +15,27 @@ public class TodoUtil {
 	
 	public static void createItem(TodoList list) {
 		
-		String title, desc;
+		String category,title, desc,due_date;
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println("\n"
-				+ "========== 리스트 추가하기\n"
-				+ "제목을 입력하세요\n");
+		System.out.print("========== 리스트 추가하기 =========\n"+"카테고리 > ");
+		category = sc.next();
+		sc.nextLine();
 		
-		title = sc.next();
+		System.out.print("제목 > ");
+		title = sc.nextLine();
 		if (list.isDuplicate(title)) {
 			System.out.println("제목은 중복될수 없습니다.");
 			return;
 		}
 		
-		sc.nextLine();
-		System.out.println("내용을 입력하세요");
+		System.out.print("내용 > ");
 		desc = sc.nextLine().trim();
 		
-		TodoItem t = new TodoItem(title, desc);
+		System.out.print("마감일자(yyyy/mm/dd) > ");
+		due_date = sc.nextLine().trim();
+		
+		TodoItem t = new TodoItem(category,title,desc,due_date);
 		list.addItem(t);
 		System.out.println("추가되었습니다.");
 	}
@@ -42,18 +45,20 @@ public class TodoUtil {
 		Scanner sc = new Scanner(System.in);
 		
 		System.out.println("\n"
-				+ "========== 리스트 삭제하기\n"
-				+ "삭제할 리스트의 제목을 입력하세요\n"
-				+ "\n");
+				+ "========== 리스트 삭제하기 ==========\n"
+				+ "삭제할 항목의 번호를 입력하세요\n");
 		
-		String title = sc.next();
+		int num  = sc.nextInt();
+		TodoItem t = l.getList().get(num-1);
+		System.out.println(num+". "+t.toString());
+		System.out.println("위 항목을 삭제하시겠습니까? (y/n) > ");
 		
-		for (TodoItem item : l.getList()) {
-			if (title.equals(item.getTitle())) {
-				l.deleteItem(item);
-				System.out.println("삭제되었습니다.");
-				break;
-			}
+		String ans = sc.next();
+		if(ans.equals("y")) {
+			l.deleteItem(t);
+			System.out.println("삭제되었습니다.");
+		} else {
+			System.out.println("삭제를 취소했습니다.");
 		}
 	}
 
@@ -63,39 +68,42 @@ public class TodoUtil {
 		Scanner sc = new Scanner(System.in);
 		
 		System.out.println("\n"
-				+ "========== 리스트 수정하기\n"
-				+ "업데이트 하고싶은 리스트의 제목을 입력하세요\n"
-				+ "\n");
-		String title = sc.next().trim();
-		if (!l.isDuplicate(title)) {
-			System.out.println("제목이 존재하지 않습니다.");
-			return;
-		}
-
-		System.out.println("새로운 제목을 입력하세요");
-		String new_title = sc.next().trim();
-		if (l.isDuplicate(new_title)) {
+				+ "========== 리스트 수정하기 ==========\n"
+				+ "수정할 항목의 번호를 입력하세요\n");
+		
+		int num  = sc.nextInt();
+		TodoItem t = l.getList().get(num-1);
+		System.out.println(num+". "+t.toString());
+		
+		System.out.print("새 카테고리 > ");
+		String category = sc.next();
+		sc.nextLine();
+		
+		System.out.print("새 제목 > ");
+		String title = sc.nextLine().trim();
+		if (l.isDuplicate(title)) {
 			System.out.println("제목은 중복될수 없습니다.");
 			return;
 		}
 		
-		sc.nextLine();
-		System.out.println("새로운 내용을 입력하세요 ");
+		System.out.print("새 내용 > ");
 		String new_description = sc.nextLine().trim(); 
-		for (TodoItem item : l.getList()) {
-			if (item.getTitle().equals(title)) {
-				l.deleteItem(item);
-				TodoItem t = new TodoItem(new_title, new_description);
-				l.addItem(t);
-				System.out.println("수정되었습니다.");
-			}
-		}
+
+		System.out.print("새 마감일자(yyyy/mm/dd) > ");
+		String due_date = sc.nextLine().trim();
+		
+		l.deleteItem(t);
+		TodoItem item = new TodoItem(category,title,new_description,due_date);
+		l.addItem(item);
+		System.out.println("수정되었습니다.");
 	}
 
 	public static void listAll(TodoList l) {
-		System.out.println("전체 리스트");
+		System.out.println("전체 리스트, 총 "+l.getlsize()+"개");
+		int ct = 1;
 		for (TodoItem item : l.getList()) {
-			System.out.println(item.toString());
+			System.out.println(ct+". "+item.toString());
+			ct++;
 		}
 	}
 	
@@ -123,12 +131,14 @@ public class TodoUtil {
 			
 			while((line = br.readLine())!=null) {
 				StringTokenizer st = new StringTokenizer(line,"##");
+				String category = st.nextToken();
 				String title = st.nextToken();
 				String desc = st.nextToken();
-				String date = st.nextToken();
+				String due_date = st.nextToken();
+				String current_date = st.nextToken();
 				
-				TodoItem t = new TodoItem(title,desc);
-				t.setCurrent_date(date);
+				TodoItem t = new TodoItem(category,title,desc,due_date);
+				t.setCurrent_date(current_date);
 				l.addItem(t);
 			}
 			br.close();

@@ -7,13 +7,23 @@ public class TodoItem {
     private String title;
     private String desc;
     private String current_date;
-
+    private String category;
+    private String due_date;
 
     public TodoItem(String title, String desc){
         this.title=title;
         this.desc=desc;
         SimpleDateFormat f = new SimpleDateFormat("yyyy/MM/dd kk:mm:ss");
         this.current_date=f.format(new Date()); 
+    }
+    
+    public TodoItem(String category,String title,String desc,String due_date) {
+    	this.category = category;
+    	this.title=title;
+        this.desc=desc;
+        this.due_date = due_date;
+        SimpleDateFormat f = new SimpleDateFormat("yyyy/MM/dd kk:mm:ss");
+        this.current_date=f.format(new Date());
     }
     
     public String getTitle() {
@@ -40,12 +50,30 @@ public class TodoItem {
         this.current_date = current_date;
     }
     
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public String getDue_date() {
+		return due_date;
+	}
+
+	public void setDue_date(String due_date) {
+		this.due_date = due_date;
+	}
+    
     public String toSaveString() {
-    	return this.title+"##"+this.desc+"##"+this.current_date+"\n";
+    	return this.getCategory()+"##"+this.getTitle()+"##"+this.getDesc()+"##"+this.getDue_date()+"##"+
+    			this.getCurrent_date()+"\n";
     }
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "[" + this.getTitle()+ "] " + this.getDesc() + " - " + this.current_date;
+		return "[" + this.getCategory()+ "] " + this.getTitle() + " - " + this.getDesc() + " - " +
+				this.getDue_date() + " - " + this.getCurrent_date();
 	}
 }
