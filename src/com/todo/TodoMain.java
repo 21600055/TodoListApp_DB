@@ -1,5 +1,7 @@
 package com.todo;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.Scanner;
 
 import com.todo.dao.TodoList;
@@ -8,13 +10,15 @@ import com.todo.service.TodoUtil;
 
 public class TodoMain {
 	
+	static Connection con = null;
+	
 	public static void start() {
 	
+		connection();
 		Scanner sc = new Scanner(System.in);
 		TodoList l = new TodoList();
 		boolean isList = false;
 		boolean quit = false;
-		TodoUtil.loadList(l, "todolist.txt");
 		Menu.displaymenu();
 		
 		do {
@@ -97,4 +101,24 @@ public class TodoMain {
 		TodoUtil.saveList(l, "todolist.txt");
 		sc.close();
 	}
+
+
+	public static void connection() {
+		try {
+			Class.forName("org.sqlite.JDBC");
+			String dbFile = "Todolist.db";
+			con = DriverManager.getConnection("jdbc:sqlite:"+dbFile);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally{
+			// TODO Auto-generated catch block
+			if(con!=null) {
+				try {
+					con.close();
+				} catch(Exception e) {}
+			}
+		}
+	}
+
 }
