@@ -4,13 +4,31 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class TodoItem {
-    private String title;
+	private int id;
+	private String title;
     private String desc;
     private String current_date;
     private String category;
     private String due_date;
+    private int is_complete;
 
-    public TodoItem(String title, String desc){
+    public int getIs_complete() {
+		return is_complete;
+	}
+
+	public void setIs_complete(int is_complete) {
+		this.is_complete = is_complete;
+	}
+
+    public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	public TodoItem(String title, String desc){
         this.title=title;
         this.desc=desc;
         SimpleDateFormat f = new SimpleDateFormat("yyyy/MM/dd kk:mm:ss");
@@ -70,10 +88,18 @@ public class TodoItem {
     	return this.getCategory()+"##"+this.getTitle()+"##"+this.getDesc()+"##"+this.getDue_date()+"##"+
     			this.getCurrent_date()+"\n";
     }
-	@Override
+
+    
+    
+    @Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "[" + this.getCategory()+ "] " + this.getTitle() + " - " + this.getDesc() + " - " +
-				this.getDue_date() + " - " + this.getCurrent_date();
+		
+		if (this.is_complete == 0)
+			return this.getId()+". "+"[" + this.getCategory()+ "] " + this.getTitle() + " - " + this.getDesc() + " - " +
+					this.getDue_date() + " - " + this.getCurrent_date();
+		else 
+			return this.getId()+". "+"[" + this.getCategory()+ "] " + this.getTitle() +"[V]" +" - " + this.getDesc() + " - " +
+					this.getDue_date() + " - " + this.getCurrent_date();
 	}
 }
