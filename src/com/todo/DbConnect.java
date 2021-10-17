@@ -18,11 +18,10 @@ public class DbConnect {
 			}
 		}
 		
-		public static Connection getConnection() {
+		public static Connection getConnection(String dbFile) {
 			if(con==null) {
 				try {
 					Class.forName("org.sqlite.JDBC");
-					String dbFile = "Todolist.db";
 					con = DriverManager.getConnection("jdbc:sqlite:"+dbFile);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block

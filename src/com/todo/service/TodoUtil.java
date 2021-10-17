@@ -31,7 +31,12 @@ public class TodoUtil {
 		System.out.print("마감일자(yyyy/mm/dd) > ");
 		due_date = sc.nextLine().trim();
 		
-		TodoItem t = new TodoItem(category,title,desc,due_date);
+		System.out.print("중요도(0~5) > ");
+		int star = sc.nextInt();
+		if (star>5) star = 5;
+		else if (star<0) star = 0;
+		
+		TodoItem t = new TodoItem(category,title,desc,due_date,star);
 		
 		if(list.addItem(t)>0)
 			System.out.println("추가되었습니다.");
@@ -48,6 +53,15 @@ public class TodoUtil {
 		int num  = sc.nextInt();
 		if(l.deleteItem(num)>0)
 			System.out.println("삭제되었습니다.");
+	}
+	
+	public static void deleteItem(TodoList l,String[] schoice) {
+		System.out.println("\n"
+				+ "========== 리스트 삭제하기 ==========\n");
+		for(int i=1;i<schoice.length;i++) {
+			if(l.deleteItem(Integer.parseInt(schoice[i]))>0)
+				System.out.println(Integer.parseInt(schoice[i])+"삭제되었습니다.");
+		}
 	}
 
 
@@ -78,7 +92,12 @@ public class TodoUtil {
 		System.out.print("새 마감일자(yyyy/mm/dd) > ");
 		String due_date = sc.nextLine().trim();
 		
-		TodoItem item = new TodoItem(category,title,new_description,due_date);
+		System.out.print("중요도(0~5) > ");
+		int star = sc.nextInt();
+		if (star>5) star = 5;
+		else if (star<0) star = 0;
+		
+		TodoItem item = new TodoItem(category,title,new_description,due_date,star);
 		item.setId(num);
 		if(l.editItem(item)>0)
 		System.out.println("수정되었습니다.");
@@ -131,6 +150,13 @@ public class TodoUtil {
 	public static void comp(TodoList l,String number) {
 		if(l.complete(number)>0)
 			System.out.println("완료 체크했습니다.");
+	}
+	
+	public static void comp(TodoList l,String[] schoice) {
+		for(int i=1;i<schoice.length;i++) {
+			if(l.complete(schoice[i])>0)
+				System.out.println(schoice[i]+"번 완료 체크했습니다.");
+		}
 	}
 	
 	public static void listComp(TodoList l) {

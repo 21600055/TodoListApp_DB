@@ -30,7 +30,7 @@ public class TodoMain {
 				break;
 			
 			case "del":
-				TodoUtil.deleteItem(l);
+				TodoUtil.deleteItem(l,schoice);
 				break;
 				
 			case "edit":
@@ -75,10 +75,16 @@ public class TodoMain {
 				break;
 				
 			case "comp":
-				TodoUtil.comp(l,schoice[1]);
+				TodoUtil.comp(l,schoice);
 				break;
+			
 			case "ls_comp":
 				TodoUtil.listComp(l);
+				break;
+			
+			case "ls_star":
+				System.out.println("중요도 순으로");
+				TodoUtil.listAll(l,"star",0);
 				break;
 				
 			case "help":
@@ -97,5 +103,6 @@ public class TodoMain {
 			if(isList) l.listAll();
 		} while (!quit);
 		sc.close();
+		//DbConnect.closeConnection();
 	}
 }
