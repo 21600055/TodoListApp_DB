@@ -56,7 +56,7 @@ public class TodoList {
 		return count;
 	}
 
-	public void addcate(String category) {
+	public void addcate(String category) { // 추가 메소드
 		String sql = "insert into Category (name)" + "values(?)";
 		PreparedStatement pstm;
 		try {
@@ -69,7 +69,7 @@ public class TodoList {
 		}
 	}
 
-	public int deleteItem(int index) {
+	public int deleteItem(int index) { //삭제 메소드
 		String sql = "delete from Todolist where id=?;";
 		PreparedStatement pstm;
 		int count = 0;
@@ -86,8 +86,8 @@ public class TodoList {
 		return count;
 	}
 
-	public int editItem(TodoItem t) {
-		String sql = "Update Todolist set title=?, memo=? ,current_date=?, due_date=?, cate=? star=?" + "where id = ?;";
+	public int editItem(TodoItem t) { // Update 메소드
+		String sql = "Update Todolist set title=?, memo=? ,current_date=?, due_date=?, cate=?, star=?" + "where id = ?;";
 		PreparedStatement pstm;
 		if (cateexist(t.getCategory()))
 			t.setCate(getcateid(t.getCategory()));
@@ -114,7 +114,7 @@ public class TodoList {
 		return count;
 	}
 
-	public ArrayList<TodoItem> getList() {
+	public ArrayList<TodoItem> getList() { // 전체 list 출력
 		ArrayList<TodoItem> list = new ArrayList<TodoItem>();
 		Statement stmt;
 		try {
@@ -146,7 +146,7 @@ public class TodoList {
 		return list;
 	}
 
-	public ArrayList<TodoItem> getList(String keyword) {
+	public ArrayList<TodoItem> getList(String keyword) { // 해당 keyword를 가진 record들 출력
 		ArrayList<TodoItem> list = new ArrayList<TodoItem>();
 		PreparedStatement pstm;
 		keyword = "%" + keyword + "%";
@@ -182,7 +182,7 @@ public class TodoList {
 		return list;
 	}
 
-	public int getCount() {
+	public int getCount() { //db record 개수 return
 		Statement stmt;
 		int count = 0;
 		try {
@@ -198,7 +198,7 @@ public class TodoList {
 		return count;
 	}
 
-	public ArrayList<String> getCategories() {
+	public ArrayList<String> getCategories() { // category 항목들 출력
 		ArrayList<String> list = new ArrayList<String>();
 		Statement stmt;
 		try {
@@ -215,7 +215,7 @@ public class TodoList {
 		return list;
 	}
 
-	public ArrayList<TodoItem> getListCategory(String keyword) {
+	public ArrayList<TodoItem> getListCategory(String keyword) { //해당 category를 가진 record들 출력
 		ArrayList<TodoItem> list = new ArrayList<TodoItem>();
 		PreparedStatement pstm;
 		int cid = getcateid(keyword);
@@ -261,7 +261,7 @@ public class TodoList {
 		}
 	}
 
-	public ArrayList<TodoItem> getOrderedList(String orderby, int ordering) {
+	public ArrayList<TodoItem> getOrderedList(String orderby, int ordering) { // orderby 기준으로 정렬 출력
 		ArrayList<TodoItem> list = new ArrayList<TodoItem>();
 		Statement stmt;
 		try {
@@ -302,7 +302,7 @@ public class TodoList {
 		Collections.sort(list, new TodoSortByDate());
 	}
 
-	public Boolean isDuplicate(String title) {
+	public Boolean isDuplicate(String title) { // title이 중복 되었는지 확인하는 메소드
 		PreparedStatement pstm;
 		int count = 0;
 		try {
@@ -323,7 +323,7 @@ public class TodoList {
 			return false;
 	}
 
-	public int complete(String number) {
+	public int complete(String number) { // 해당 number를 완료 체크하는 메소드
 		String sql = "Update Todolist set complete= ? " + "where id = ?";
 		int num = Integer.parseInt(number);
 		int count = 0;
@@ -341,7 +341,7 @@ public class TodoList {
 		return count;
 	}
 
-	public ArrayList<TodoItem> getComp() {
+	public ArrayList<TodoItem> getComp() { // 완료 체크된 항목들을 list 형태로 return
 		ArrayList<TodoItem> list = new ArrayList<TodoItem>();
 		Statement stmt;
 		try {
@@ -406,7 +406,7 @@ public class TodoList {
 		return id;
 	}
 	
-	public String getcatename(int id) {
+	public String getcatename(int id) { // Category 테이블에서 id를 넣으면 name을 return 함
 		String sql = "Select name from Category where id = ?";
 		String name = "";
 		try {
@@ -421,7 +421,7 @@ public class TodoList {
 		}
 		return name;
 	}
-	public void importdata(String filename) {
+	public void importdata(String filename) { // 처음 txt 파일을 db 파일로 옮기는 작업
 
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(filename));

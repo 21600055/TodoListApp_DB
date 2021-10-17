@@ -20,11 +20,10 @@ public class TodoMain {
 		do {
 			Menu.prompt();
 			isList = false;
-			
 			String choice = sc.nextLine();
+			if (choice.isBlank()) choice = " isblank";
 			String[] schoice = choice.split(" ");
 			switch (schoice[0]) {
-
 			case "add":
 				TodoUtil.createItem(l);
 				break;
@@ -103,6 +102,7 @@ public class TodoMain {
 			if(isList) l.listAll();
 		} while (!quit);
 		sc.close();
-		//DbConnect.closeConnection();
+		DbConnect.closeConnection();
+		System.out.print("Program exited");
 	}
 }
